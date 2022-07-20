@@ -16,16 +16,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.gaur.countrydetails.domain.model.Country
 
 
 @Composable
-fun CountryListScreen(viewModel: CountryListViewModel = hiltViewModel()) {
+fun CountryListScreen(navController: NavController,viewModel: CountryListViewModel = hiltViewModel()) {
 
     val res = viewModel.list.value
 
     Scaffold(topBar = { TopAppBar(title = { Text(text = "Country List") }) }) {
-
         if (res.isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
@@ -40,6 +40,8 @@ fun CountryListScreen(viewModel: CountryListViewModel = hiltViewModel()) {
             LazyColumn {
                 items(it) {
                     CountryListItem(country = it){
+                        navController.navigate("country_details/${it}")
+
                     }
                 }
             }
